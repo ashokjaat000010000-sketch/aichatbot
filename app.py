@@ -4,14 +4,14 @@ from openai import OpenAI
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-st.title("AI Chatbot")
+st.title("🤖 AI Chatbot")
 
-user = st.text_input("Ask something")
+user_input = st.text_input("Ask something")
 
-if user:
+if user_input:
     response = client.chat.completions.create(
         model="gpt-4o-mini",
-        messages=[{"role": "user", "content": user}]
+        messages=[{"role": "user", "content": user_input}]
     )
 
     st.write(response.choices[0].message.content)
