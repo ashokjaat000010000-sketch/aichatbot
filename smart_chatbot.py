@@ -1,21 +1,22 @@
 import streamlit as st
-import google.generativeai as genai
+import requests
 
-st.title("🤖 Gemini AI Chatbot")
+st.title("🤖 Free AI Chatbot")
 
-# configure API
-genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
+API_URL = "https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium"
 
-# latest Gemini model
-model = genai.GenerativeModel("gemini-2.0-flash")
+def query(payload):
+    response = requests.post(API_URL, json=payload)
+    return response.json()
 
-# input box
-user_input = st.text_input("Ask anything")
+user_input = st.text_input("Ask something")
 
-# response
 if user_input:
+    output = query({
+        "inputs": user_input
+    })
+
     try:
-        response = model.generate_content(user_input)
-        st.write(response.text)
-    except Exception as e:
-        st.error(e)
+        st.write(output[0]["generated_text"])
+    except:
+        st.write("Model is loading, please try again in a few seconds.")
