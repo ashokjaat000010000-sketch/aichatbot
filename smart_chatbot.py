@@ -1,22 +1,21 @@
-import os
-from openai import OpenAI
+import streamlit as st
+import google.generativeai as genai
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+# API key
+genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 
-print("🤖 AI Bot: Hello! Mujhse kuch bhi pucho. (bye likho exit ke liye)")
+# Model
+model = genai.GenerativeModel("gemini-1.5-flash")
 
-while True:
-    user = input("You: ")
+st.title("🤖 AI Chatbot")
 
-    if user.lower() == "bye":
-        print("Bot: Bye bhai 👋")
-        break
+# user input
+user_input = st.text_input("Type your question")
 
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
-            {"role": "user", "content": user}
-        ]
-    )
-
-    print("Bot:", response.choices[0].message.content)
+# button
+if st.button("Send"):
+    if user_input:
+        response = model.generate_content(user_input)
+        st.write(response.text)
+    else:
+        st.write("Please type something")
