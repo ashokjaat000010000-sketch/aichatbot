@@ -1,16 +1,21 @@
 import streamlit as st
 import google.generativeai as genai
 
-st.title("🤖 AI Chatbot")
+st.title("🤖 Gemini AI Chatbot")
 
 # configure API
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 
-# working Gemini model
-model = genai.GenerativeModel("gemini-1.5-flash")
+# latest Gemini model
+model = genai.GenerativeModel("gemini-2.0-flash")
 
-user_input = st.text_input("Ask something")
+# input box
+user_input = st.text_input("Ask anything")
 
+# response
 if user_input:
-    response = model.generate_content(user_input)
-    st.write(response.text)
+    try:
+        response = model.generate_content(user_input)
+        st.write(response.text)
+    except Exception as e:
+        st.error(e)
