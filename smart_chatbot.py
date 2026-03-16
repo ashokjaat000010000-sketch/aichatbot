@@ -4,8 +4,8 @@ import google.generativeai as genai
 # API key
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 
-# latest Gemini model
-model = genai.GenerativeModel("gemini-1.5-flash-latest")
+# model
+model = genai.GenerativeModel("models/gemini-1.5-flash")
 
 st.title("🤖 AI Chatbot")
 
