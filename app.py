@@ -1,17 +1,16 @@
 import streamlit as st
+import google.generativeai as genai
 import os
-from openai import OpenAI
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+# Gemini API key
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+
+model = genai.GenerativeModel("gemini-1.5-flash")
 
 st.title("🤖 AI Chatbot")
 
 user_input = st.text_input("Ask something")
 
 if user_input:
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[{"role": "user", "content": user_input}]
-    )
-
-    st.write(response.choices[0].message.content)
+    response = model.generate_content(user_input)
+    st.write(response.text)
