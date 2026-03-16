@@ -1,11 +1,11 @@
 import streamlit as st
 import google.generativeai as genai
 
-# API key from Streamlit secrets
+# API key
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 
-# Model
-model = genai.GenerativeModel("gemini-pro")
+# latest Gemini model
+model = genai.GenerativeModel("gemini-1.5-flash-latest")
 
 st.title("🤖 AI Chatbot")
 
